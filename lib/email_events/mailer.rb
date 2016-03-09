@@ -2,8 +2,6 @@ module EmailEvents
   module Mailer
     def self.included(base)
       base.class_eval do
-        after_action :track_metadata_in_header
-
         # whether or not to track the email and handle events for the email
         class_attribute :event_handler
         # additional metadata to store along the email, which we can pull up again when an event occurs (JSON format)
@@ -12,6 +10,8 @@ module EmailEvents
         # an alternative class (generally, a subclass) instead of SentEmailData - eg. to perform validations on the
         # custom tracked_metadata
         class_attribute :sent_email_data_class
+
+        after_action :__track_data_in_header
 
         protected
         def self.on_event(event_handler)
@@ -22,7 +22,7 @@ module EmailEvents
           self.tracked_data_method = tracked_data_method
         end
 
-        def track_data_in_header
+        def __track_data_in_header
           return if event_handler.nil? && tracked_data_method.nil?
 
           Service::Email::TrackDataInHeader.call(

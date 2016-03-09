@@ -1,7 +1,9 @@
+require 'gridhook'
+
 module EmailEvents::Adapters
   module Sendgrid
     class Initializer < Abstract::Initializer
-      def initialize
+      def self.initialize
         Gridhook.configure do |config|
           config.event_receive_path = '/email_events/sendgrid'
 

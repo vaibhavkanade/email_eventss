@@ -15,7 +15,7 @@ require 'active_record'
 
 module EmailEvents
   class SentEmailData < ActiveRecord::Base
-    attr_accessible :uuid, :mailer_class, :mailer_action, :to, :data
+    self.table_name = "sent_email_data"
     serialize :data
   end
 end

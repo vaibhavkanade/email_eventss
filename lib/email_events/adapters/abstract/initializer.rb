@@ -1,7 +1,7 @@
 module EmailEvents::Adapters
   module Abstract
     class Initializer
-      def initialize
+      def self.initialize
         raise "Not implemented"
       end
     end

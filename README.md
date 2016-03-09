@@ -19,6 +19,10 @@ And then execute:
 Or install it yourself as:
 
     $ gem install email_events
+    
+Then install the migration for tracking sent emails:
+    
+    $ rails g email_events:install
 
 ## Usage
 

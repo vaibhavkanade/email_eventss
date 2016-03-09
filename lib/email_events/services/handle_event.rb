@@ -1,10 +1,10 @@
-class EmailEvents::Service::HandleSendgridEvent < EmailEvents::Service
+class EmailEvents::Service::HandleEvent < EmailEvents::Service
   def initialize(raw_response)
     @raw_response = raw_response
   end
 
   def call
-    sent_emails = Service::Email::RetrieveDataFromHeader.call(message_id, event_data: event_data)
+    sent_emails = Service::RetrieveDataFromHeader.call(event_data)
     return if sent_emails.blank?
 
     # in occasional cases (when there's no UUID), there will be multiple sent_emails that match the event: we
@@ -23,6 +23,6 @@ class EmailEvents::Service::HandleSendgridEvent < EmailEvents::Service
   end
 
   def event_data_adapter_class
-    "Adapters::#{EmailEvents.adapter}EventData".constantize
+    "Adapters::#{EmailEvents.provider}EventData".constantize
   end
 end
