@@ -32,7 +32,7 @@
   "open": {
     "email": "example@test.com",
     "timestamp": 1443124493,
-    "smtp-id": "<41ec7b43b2984486ac6dd89691166303@uuidemail_events>",
+    "smtp-id": "<41ec7b43b2984486ac6dd89691166303@uuid.email_events>",
     "event": "open",
     "category": "cat facts",
     "sg_event_id": "QVqgHqrAAy9GM4roG4DdAA==",
@@ -43,7 +43,7 @@
   "click": {
     "email": "example@test.com",
     "timestamp": 1443124493,
-    "smtp-id": "<41ec7b43b2984486ac6dd89691166303@uuidemail_events>",
+    "smtp-id": "<41ec7b43b2984486ac6dd89691166303@uuid.email_events>",
     "event": "click",
     "category": "cat facts",
     "sg_event_id": "DzK4wgr2qV6BBDp-DWxDrQ==",
@@ -55,7 +55,7 @@
   "dropped": {
     "email": "example@test.com",
     "timestamp": 1443124493,
-    "smtp-id": "<41ec7b43b2984486ac6dd89691166303@uuidemail_events>",
+    "smtp-id": "<41ec7b43b2984486ac6dd89691166303@uuid.email_events>",
     "event": "dropped",
     "category": "cat facts",
     "sg_event_id": "s51uBQ9dxPFv7Gpzz9PIdg==",
@@ -66,7 +66,7 @@
   "bounce": {
     "email": "example@test.com",
     "timestamp": 1443124493,
-    "smtp-id": "<41ec7b43b2984486ac6dd89691166303@uuidemail_events>",
+    "smtp-id": "<41ec7b43b2984486ac6dd89691166303@uuid.email_events>",
     "event": "bounce",
     "category": "cat facts",
     "sg_event_id": "s51uBQ9dxPFv7Gpzz9PIdg==",
@@ -77,7 +77,7 @@
   "spamreport": {
     "email": "example@test.com",
     "timestamp": 1443124493,
-    "smtp-id": "<41ec7b43b2984486ac6dd89691166303@uuidemail_events>",
+    "smtp-id": "<41ec7b43b2984486ac6dd89691166303@uuid.email_events>",
     "event": "spamreport",
     "category": "cat facts",
     "sg_event_id": "NB3MkzHlqIDXQrGceWo1Vw==",
@@ -86,7 +86,7 @@
   "unsubscribe": {
     "email": "example@test.com",
     "timestamp": 1443124493,
-    "smtp-id": "<41ec7b43b2984486ac6dd89691166303@uuidemail_events>",
+    "smtp-id": "<41ec7b43b2984486ac6dd89691166303@uuid.email_events>",
     "event": "unsubscribe",
     "category": "cat facts",
     "sg_event_id": "B6JiynatSpaVodtwCdedvg==",
@@ -95,7 +95,7 @@
   "group_unsubscribe": {
     "email": "example@test.com",
     "timestamp": 1443124493,
-    "smtp-id": "<41ec7b43b2984486ac6dd89691166303@uuidemail_events>",
+    "smtp-id": "<41ec7b43b2984486ac6dd89691166303@uuid.email_events>",
     "event": "group_unsubscribe",
     "category": "cat facts",
     "sg_event_id": "CXia8TpcYjV8kQYKRUQcMw==",
@@ -108,7 +108,7 @@
   "group_resubscribe": {
     "email": "example@test.com",
     "timestamp": 1443124493,
-    "smtp-id": "<41ec7b43b2984486ac6dd89691166303@uuidemail_events>",
+    "smtp-id": "<41ec7b43b2984486ac6dd89691166303@uuid.email_events>",
     "event": "group_resubscribe",
     "category": "cat facts",
     "sg_event_id": "Aabym_Jm_oEF-mwevfdpmg==",

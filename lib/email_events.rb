@@ -7,10 +7,8 @@ require "email_events/adapters/abstract/initializer"
 require "email_events/adapters/sendgrid/initializer"
 require "email_events/adapters/ses/initializer"
 require "email_events/adapters/abstract/event_data"
-require "email_events/adapters/sendgrid/initializer"
-require "email_events/adapters/ses/initializer"
-
-require "email_events/models/sent_email_data"
+require "email_events/adapters/sendgrid/event_data"
+require "email_events/adapters/ses/event_data"
 
 require "email_events/services/service"
 require "email_events/services/track_data_in_header"
