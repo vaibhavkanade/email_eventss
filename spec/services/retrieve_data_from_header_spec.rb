@@ -12,7 +12,7 @@ describe EmailEvents::Service::RetrieveDataFromHeader do
       'email' => 'user@test.com'
     })
   end
-  let(:email_data) { EmailEvents::Adapters::Sendgrid::EventData.new(sendgrid_bounce_fixture) }
+  let(:event_data) { EmailEvents::Adapters::Sendgrid::EventData.new(sendgrid_bounce_fixture) }
 
   let(:sent_email_data) { EmailEvents::SentEmailData.create(uuid: uuid, mailer_class: 'TestMailer', mailer_action: 'mail', to: 'user@test.com') }
 
@@ -27,12 +27,12 @@ describe EmailEvents::Service::RetrieveDataFromHeader do
     end
 
     it "finds the sent_email_data from the message-id" do
-      expect(EmailEvents::Service::RetrieveDataFromHeader.call(email_data: email_data)).to eql [sent_email_data]
+      expect(EmailEvents::Service::RetrieveDataFromHeader.call(event_data: event_data)).to eql [sent_email_data]
     end
 
     it "stores the provider id" do
-      EmailEvents::Service::RetrieveDataFromHeader.call(email_data: email_data)
-      expect(sent_email_data.reload.provider_message_id).to eq email_data.provider_message_id
+      EmailEvents::Service::RetrieveDataFromHeader.call(event_data: event_data)
+      expect(sent_email_data.reload.provider_message_id).to eq event_data.provider_message_id
     end
   end
 
@@ -47,11 +47,11 @@ describe EmailEvents::Service::RetrieveDataFromHeader do
 
       context "we have tracked the associated provider message_id" do
         before do
-          sent_email_data.update_attribute(:provider_message_id, email_data.provider_message_id)
+          sent_email_data.update_attribute(:provider_message_id, event_data.provider_message_id)
         end
 
         it "finds the sent email data from the provider message_id" do
-          expect(EmailEvents::Service::RetrieveDataFromHeader.call(email_data: email_data)).to eql [sent_email_data]
+          expect(EmailEvents::Service::RetrieveDataFromHeader.call(event_data: event_data)).to eql [sent_email_data]
         end
       end
 
@@ -61,7 +61,7 @@ describe EmailEvents::Service::RetrieveDataFromHeader do
         end
 
         it "finds no sent email data" do
-          expect(EmailEvents::Service::RetrieveDataFromHeader.call(email_data: email_data)).to be_empty
+          expect(EmailEvents::Service::RetrieveDataFromHeader.call(event_data: event_data)).to be_empty
         end
       end
     end
@@ -75,7 +75,7 @@ describe EmailEvents::Service::RetrieveDataFromHeader do
         describe "one email in the last fifteen minutes" do
           it "finds the sent email data from the email address" do
             expected_email_data = [sent_email_data]
-            expect(EmailEvents::Service::RetrieveDataFromHeader.call(email_data: email_data).to_a).to eql expected_email_data
+            expect(EmailEvents::Service::RetrieveDataFromHeader.call(event_data: event_data).to_a).to eql expected_email_data
           end
         end
 
@@ -86,7 +86,7 @@ describe EmailEvents::Service::RetrieveDataFromHeader do
 
           it "does not find any matching email data" do
             non_matching_email_data = [sent_email_data]
-            expect(EmailEvents::Service::RetrieveDataFromHeader.call(email_data: email_data)).to be_empty
+            expect(EmailEvents::Service::RetrieveDataFromHeader.call(event_data: event_data)).to be_empty
           end
         end
 
@@ -95,7 +95,7 @@ describe EmailEvents::Service::RetrieveDataFromHeader do
 
           it "finds all the matching sent email data" do
             expected_email_data = [sent_email_data, second_sent_email_data]
-            result = EmailEvents::Service::RetrieveDataFromHeader.call(email_data: email_data)
+            result = EmailEvents::Service::RetrieveDataFromHeader.call(event_data: event_data)
             expect(result.length).to eq expected_email_data.length
             expected_email_data.each do |email_data|
               expect(result).to include email_data

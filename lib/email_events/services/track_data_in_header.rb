@@ -1,6 +1,8 @@
+require 'virtus'
 require 'uuidtools'
 
 class EmailEvents::Service::TrackDataInHeader < EmailEvents::Service
+  include Virtus.model
   attribute :mailer
   attribute :sent_email_data_class
   attribute :data
@@ -26,7 +28,7 @@ class EmailEvents::Service::TrackDataInHeader < EmailEvents::Service
 
   private
   def mailer_class
-    mailer.to_s
+    mailer.class.to_s
   end
 
   def mailer_action

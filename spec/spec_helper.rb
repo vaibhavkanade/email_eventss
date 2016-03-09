@@ -4,10 +4,11 @@ require 'bundler/setup'
 
 require 'combustion'
 
+require 'action_mailer'
+
 # get combustion to trigger our railties
 Combustion.initialize! :all
 
 require 'email_events'
-
 require 'internal/mailers/test_mailer'
 

@@ -6,7 +6,7 @@ module EmailEvents::Adapters
       end
 
       def event_type
-        @sendgrid_data['event']
+        @sendgrid_data['event'].to_sym
       end
 
       def event_timestamp

@@ -4,15 +4,15 @@ class EmailEvents::Service::HandleEvent < EmailEvents::Service
   end
 
   def call
-    sent_emails = Service::RetrieveDataFromHeader.call(event_data)
+    sent_emails = EmailEvents::Service::RetrieveDataFromHeader.call(event_data: event_data)
     return if sent_emails.blank?
 
     # in occasional cases (when there's no UUID), there will be multiple sent_emails that match the event: we
     # apply the event handling to each one
     sent_emails.each do |email_data|
       begin
-        mailer = email_data.mailer_class.constantize.new
-        mailer.on_email_event(event_data, email_data)
+        mailer = email_data.mailer_class.constantize.send :new
+        mailer.send :__handle_event, event_data, email_data
       end
     end
   end
@@ -23,6 +23,6 @@ class EmailEvents::Service::HandleEvent < EmailEvents::Service
   end
 
   def event_data_adapter_class
-    "Adapters::#{EmailEvents.provider}EventData".constantize
+    "EmailEvents::Adapters::#{EmailEvents.provider.to_s.camelize}::EventData".constantize
   end
 end

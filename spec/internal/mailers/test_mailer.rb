@@ -14,6 +14,7 @@ class TestMailer < ActionMailer::Base
 
   private
   def handle_event(event_data, email_data)
+    'aoeu'
   end
 
   def sent_email_metadata
