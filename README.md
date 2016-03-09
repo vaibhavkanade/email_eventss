@@ -23,10 +23,80 @@ Or install it yourself as:
 Then install the migration for tracking sent emails:
     
     $ rails g email_events:install
+    
+### Sendgrid
+
+1. Login to your SendGrid account and navigate to "Mail Settings" -> Event Notification.
+
+2. Turn the module "On".
+
+3. Set the HTTP POST URL to https://<yourdomain>/email_events/sendgrid
+
+4. Under "Select Actions", choose the event types for which you would like to receive triggers.
+
+That's it!
+
+### AWS SES / SNS    
+
+1. Login to the AWS Management Console.
+
+2. Open up the AWS SNS console.
+
+3. Click "Create Topic".  Set both the the "Topic name" to "email_events" and the "Display name" to "emails". Click "Create topic".
+
+4. In the "Topic Details", click "Create Subscription".  Set the endpoint to https://<yourdomain>/email_events/ses
 
 ## Usage
 
-TODO: Write usage instructions here
+### Basic
+
+Simply add an `on_event` handler to your mailer to start handling email events.  Eg.:
+
+```
+class MyMailer < ActionMailer::Base
+  on_event :handle_event
+
+  ...
+  
+  
+  def handle_event(event_data, email_data)
+    if event_data.event_type == :bounce
+      my_bounce_notification_method(email_data.to)
+    end     
+  end
+end
+```
+
+### Supported Event Types
+
+- For Sengrid:
+- For AWS: 
+
+### Advanced
+
+You can track custom JSON data along with the original email message.  This data will then be available to you in the event
+handler:
+
+```
+class MyMailer < ActionMailer::Base
+  on_event :handle_event
+  track_data :custom_metadata
+
+  ...
+  
+  def custom_metadata
+    {
+      my_data: true
+    }
+  end
+  
+  def handle_event(event_data, email_data)
+    my_data = email_data.data[:my_data] 
+    ...
+  end
+end
+```
+
 
 ## Development
 
