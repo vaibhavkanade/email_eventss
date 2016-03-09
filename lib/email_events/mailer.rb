@@ -18,14 +18,14 @@ module EmailEvents
           self.event_handler = event_handler
         end
 
-        def self.track_data_for_events(tracked_data_method)
+        def self.track_data(tracked_data_method)
           self.tracked_data_method = tracked_data_method
         end
 
         def __track_data_in_header
           return if event_handler.nil? && tracked_data_method.nil?
 
-          Service::Email::TrackDataInHeader.call(
+          EmailEvents::Service::TrackDataInHeader.call(
             mailer: self,
             sent_email_data_class: sent_email_data_class || EmailEvents::SentEmailData,
             data: __tracked_data

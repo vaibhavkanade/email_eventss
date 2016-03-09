@@ -1,13 +1,15 @@
 class TestMailer < ActionMailer::Base
   on_event :handle_event
-  track_data_events :sent_email_metadata
+  track_data :sent_email_metadata
 
-  def mail
+  def hello
     mail(
       to: 'joe@test.com',
-      subject: 'Test',
+      subject: 'Hello',
       from: 'sandra@test.com'
-    )
+    ) do |format|
+      format.text { render text: 'Hello Joe, From Sandra' }
+    end
   end
 
   private

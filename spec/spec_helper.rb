@@ -9,3 +9,5 @@ Combustion.initialize! :all
 
 require 'email_events'
 
+require 'internal/mailers/test_mailer'
+
