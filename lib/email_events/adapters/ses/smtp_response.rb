@@ -1,6 +1,6 @@
 module EmailEvents::Adapters
   module Ses
-    class SmtpResponse
+    class SmtpResponse < Abstract::SmtpResponse
       def provider_message_id
         # Status OK
         return nil unless @raw_smtp_response.status == '250'

@@ -4,8 +4,8 @@ module EmailEvents::Adapters
       def initialize(sendgrid_data)
         @sendgrid_data = sendgrid_data
 
-        raise "Unrecognized Sendgrid event type" unless event_type.in?[:delivered, :bounce, :dropped, :deferred, :processed, :click,
-                                                                       :open, :spamreport, :group_unsubscribe, :group_resubscribe]
+        raise "Unrecognized Sendgrid event type" unless event_type.in?([:delivered, :bounce, :dropped, :deferred, :processed, :click,
+                                                                       :open, :spamreport, :group_unsubscribe, :group_resubscribe])
       end
 
       def event_type

@@ -54,14 +54,16 @@ module EmailEvents
 
         # pry into the deliver_mail method so as to intercept the SMTP response and
         # parse out the provider message id
-        def self.deliver_mail(message)
-          response = super
+        singleton_class.send(:alias_method, :base_deliver_mail, :deliver_mail)
+        def self.deliver_mail(message, &block)
+          response = base_deliver_mail(message, &block)
 
           EmailEvents::Service::ParseSmtpResponseForProviderId.call(
             mail_message: message,
             raw_response: response,
             sent_email_data_class: sent_email_data_class || EmailEvents::SentEmailData,
           )
+          response
         end
       end
     end

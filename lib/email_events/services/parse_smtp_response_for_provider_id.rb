@@ -1,12 +1,12 @@
 class EmailEvents::Service::ParseSmtpResponseForProviderId < EmailEvents::Service
   include Virtus.model
-  attribute :mail_message, Mail::Message
-  attribute :raw_response, Net::SMTP::Response
+  attribute :mail_message
+  attribute :raw_response
   attribute :sent_email_data_class
 
   def call
     # parse the response using the applicable SmtpResponse adapter
-    provider_id = parsed_response.provider_id
+    provider_id = parsed_response.provider_message_id
     return if provider_id.nil?
 
     # find our SentEmailData from our own UUID and store the provider id
@@ -16,7 +16,7 @@ class EmailEvents::Service::ParseSmtpResponseForProviderId < EmailEvents::Servic
 
   private
   def response_class
-    "EmailEvents::Adapters::#{EmailEvents.provider}::SmtpResponse".constantize
+    EmailEvents.adapter.const_get('SmtpResponse')
   end
 
   def parsed_response
