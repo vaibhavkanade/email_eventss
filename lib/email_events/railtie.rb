@@ -11,7 +11,7 @@ module EmailEvents
 
       # Gridhook gets upset when it draws its routes if we haven't setup the event receive path, so always do so here immediately
       # (even for non-sendgrid)
-      # TODO: should ideally break out the adapters into separate gems
+      # TODO: especially if there ever gets to be > 2 adapters, each adapters should ideally be broken out into its own gem
       Gridhook.config.event_receive_path = '/email_events/sendgrid'
     end
   end

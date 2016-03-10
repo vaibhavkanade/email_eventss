@@ -20,6 +20,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "gridhook"
+  spec.add_dependency "sns_endpoint"
   spec.add_dependency "uuidtools"
   spec.add_dependency "virtus"
   spec.add_development_dependency "bundler", "~> 1.11"

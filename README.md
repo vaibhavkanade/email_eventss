@@ -24,6 +24,15 @@ Then install the migration for tracking sent emails:
     
     $ rails g email_events:install
     
+### Rails configuration
+
+1. Setup your action_mailer smtp settings as usual. Email_events will detect whether your using Sendgrid SES based on the
+smtp address, but you can also set the adapter in an initializer -- eg. `EmailEvents.provider = :sendgrid`.
+
+2. **Important**: Set `config.action_mailer.smtp_settings[:return_response] = true`. This is necessary to get the email
+provider's unique ids back for tracking events against the original email.
+
+    
 ### Sendgrid
 
 1. Login to your SendGrid account and navigate to "Mail Settings" -> Event Notification.
@@ -69,8 +78,8 @@ end
 
 ### Supported Event Types
 
-- For Sengrid:
-- For AWS: 
+- For Sendgrid: :delivered, :bounce, :dropped, :deferred, :processed, :click, :open, :spamreport, :group_unsubscribe, :group_resubscribe
+- For AWS: :delivered, :bounce, :spamreport
 
 ### Advanced
 

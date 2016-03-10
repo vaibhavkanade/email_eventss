@@ -3,6 +3,9 @@ module EmailEvents::Adapters
     class EventData < Abstract::EventData
       def initialize(sendgrid_data)
         @sendgrid_data = sendgrid_data
+
+        raise "Unrecognized Sendgrid event type" unless event_type.in?[:delivered, :bounce, :dropped, :deferred, :processed, :click,
+                                                                       :open, :spamreport, :group_unsubscribe, :group_resubscribe]
       end
 
       def event_type
@@ -14,9 +17,9 @@ module EmailEvents::Adapters
         Time.at @sendgrid_data['timestamp']
       end
 
-      def recipient
+      def recipients
         return nil if @sendgrid_data.nil?
-        @sendgrid_data['email']
+        [@sendgrid_data['email']]
       end
 
       def smtp_status_code
@@ -34,7 +37,12 @@ module EmailEvents::Adapters
       end
 
       def provider_message_id
-        @sendgrid_data['sg_message_id']
+        return nil if @sendgrid_data['sg_message_id'].nil?
+        @sendgrid_data['sg_message_id'].gsub(/\.filter.*/,'')
+      end
+
+      def raw_data
+        @sendgrid_data
       end
     end
   end

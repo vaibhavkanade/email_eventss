@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe EmailEvents do
-  context do "Sendgrid configured as the Rails email provider" do
+  context "Sendgrid is configured as the Rails email provider" do
     before do
       Rails.configuration.action_mailer.smtp_settings = {
         address: "smtp.sendgrid.net",
@@ -13,8 +13,8 @@ describe EmailEvents do
       }
     end
 
-    it "applies the Sengrid adapter" do
-      expect(EmailEvents.adapter).to eq :sendgrid
+    it "detects Sendgrid to use as the adapter" do
+      expect(EmailEvents.provider).to eq :sendgrid
     end
   end
 end

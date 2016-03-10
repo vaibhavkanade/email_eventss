@@ -2,7 +2,7 @@ module EmailEvents::Adapters
   module Abstract
     class EventData
       [:event_type, :event_timestamp, :recipient, :status_string, :smtp_status_code, :reason,
-       :smtp_message_id, :provider_message_id].each do |pure_virtual_method|
+       :smtp_message_id, :provider_message_id, :simplified_status, :raw_data].each do |pure_virtual_method|
         define_method(pure_virtual_method) { raise "Not implemented" }
       end
 

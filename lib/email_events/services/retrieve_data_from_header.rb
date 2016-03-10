@@ -34,8 +34,8 @@ class EmailEvents::Service::RetrieveDataFromHeader < EmailEvents::Service
     # We only do this for bounces and drops, as it's safe to assume that a bounce and drop event should apply
     # to ALL outstanding sent emails -- as opposed to eg. click and open events which are tightly associated with one
     # sent email)
-    if self.event_data.event_type.in?(['bounce', 'dropped'])
-      return EmailEvents::SentEmailData.where('created_at > ? AND "to" = ?', self.event_data.event_timestamp-15.minutes, self.event_data.recipient)
+    if self.event_data.event_type.in?([:bounce, :dropped])
+      return EmailEvents::SentEmailData.where('created_at > ? AND "to" = ?', self.event_data.event_timestamp-15.minutes, self.event_data.recipients.first)
     end
 
     []
