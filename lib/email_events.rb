@@ -9,30 +9,25 @@ require "email_events/adapters/ses/initializer"
 require "email_events/adapters/abstract/event_data"
 require "email_events/adapters/sendgrid/event_data"
 require "email_events/adapters/ses/event_data"
+require "email_events/adapters/abstract/smtp_response"
+require "email_events/adapters/sendgrid/smtp_response"
+require "email_events/adapters/ses/smtp_response"
 
 require "email_events/services/service"
 require "email_events/services/track_data_in_header"
 require "email_events/services/retrieve_data_from_header"
 require "email_events/services/handle_event"
+require "email_events/services/parse_smtp_response_for_provider_id"
 
 module EmailEvents
-  mattr_accessor :provider
-
   def self.initialize
-    autodetect_provider if provider.nil?
-    return if provider.nil?
-
-    "EmailEvents::Adapters::#{self.provider.to_s.camelize}::Initializer".constantize.initialize
+    adapter.const_get('Initializer').initialize
   end
 
-  def self.autodetect_provider
-    smtp_settings = Rails.configuration.action_mailer.smtp_settings
-    if smtp_settings.present? && smtp_settings[:address].include?('sendgrid')
-      self.provider = :sendgrid
-    end
-
-    if provider.nil?
-      Rails.logger.error "Unable to detect email provider. Please set a provider with EmailEvent.provider = -- :sendgrid or :ses --"
+  def self.adapter
+    @adapter ||= begin
+      adapter_initializer = EmailEvents::Adapters::Abstract::Initializer.descendants.find {|adapter| adapter.load_adapter?}
+      adapter_initializer.parent
     end
   end
 end

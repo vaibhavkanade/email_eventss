@@ -23,6 +23,6 @@ class EmailEvents::Service::HandleEvent < EmailEvents::Service
   end
 
   def event_data_adapter_class
-    "EmailEvents::Adapters::#{EmailEvents.provider.to_s.camelize}::EventData".constantize
+    EmailEvents.adapter.const_get('EventData')
   end
 end

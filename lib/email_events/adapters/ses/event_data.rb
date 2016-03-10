@@ -1,7 +1,7 @@
 module EmailEvents::Adapters
   module Ses
     class EventData < Abstract::EventData
-       def initialize(sns_data)
+      def initialize(sns_data)
         @sns_data = sns_data
 
         raise "Unrecognized SES event type" if event_type.nil?
@@ -9,15 +9,14 @@ module EmailEvents::Adapters
 
       def event_type
         case @sns_data['notificationType']
-          when 'Bounce'
-            :bounce
-          when 'Complaint'
-            :spamreport
-          when 'Delivery'
-            :delivered
-          else
-            nil
-          end
+        when 'Bounce'
+          :bounce
+        when 'Complaint'
+          :spamreport
+        when 'Delivery'
+          :delivered
+        else
+          nil
         end
       end
 

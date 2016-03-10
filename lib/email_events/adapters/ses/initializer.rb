@@ -1,6 +1,11 @@
 module EmailEvents::Adapters
   module Ses
     class Initializer < Abstract::Initializer
+      def self.load_adapter?
+        smtp_settings = Rails.configuration.action_mailer.smtp_settings
+        smtp_settings.present? && smtp_settings[:address].include?('sendgrid.com')
+      end
+
       def self.initialize
         SnsEndpoint.setup do |config|
           config.topics_list = ['email_events']
