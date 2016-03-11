@@ -13,6 +13,7 @@ module EmailEvents
       # (even for non-sendgrid)
       # TODO: especially if there ever gets to be > 2 adapters, each adapters should ideally be broken out into its own gem
       Gridhook.config.event_receive_path = '/email_events/sendgrid'
+      Gridhook.config.event_processor = Proc.new { raise 'Sendgrid adapter not loaded' }
     end
   end
 end
