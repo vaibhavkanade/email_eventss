@@ -25,11 +25,20 @@ module EmailEvents
   end
 
   def self.adapter
+    # auto-detect the adapter unless it's already been explicitly set
     @adapter ||= begin
       adapter_initializer = EmailEvents::Adapters::Abstract::Initializer.descendants.find {|adapter| adapter.load_adapter?}
       return nil if adapter_initializer.nil?
 
       adapter_initializer.parent
+    end
+  end
+
+  def self.adapter=(adapter_module)
+    if adapter_module.is_a?(String) || adapter_module.is_a?(Symbol)
+      @adapter = "EmailEvents::Adapters::#{adapter_module.to_s.camelize}".constantize
+    else
+      @adapter = adapter_module
     end
   end
 end
