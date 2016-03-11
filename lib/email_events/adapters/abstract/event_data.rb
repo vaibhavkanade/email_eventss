@@ -26,3 +26,4 @@ module EmailEvents::Adapters
     end
   end
 end
+
