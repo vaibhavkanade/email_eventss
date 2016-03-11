@@ -21,12 +21,14 @@ require "email_events/services/parse_smtp_response_for_provider_id"
 
 module EmailEvents
   def self.initialize
-    adapter.const_get('Initializer').initialize
+    adapter.const_get('Initializer').initialize unless adapter.nil?
   end
 
   def self.adapter
     @adapter ||= begin
       adapter_initializer = EmailEvents::Adapters::Abstract::Initializer.descendants.find {|adapter| adapter.load_adapter?}
+      return nil if adapter_initializer.nil?
+
       adapter_initializer.parent
     end
   end

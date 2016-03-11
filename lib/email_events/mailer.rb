@@ -59,6 +59,9 @@ module EmailEvents
         def self.deliver_mail(message, &block)
           response = base_deliver_mail(message, &block)
 
+          # no provider id to parse if no adapter has been set
+          return response if EmailEvents.adapter.nil?
+
           EmailEvents::Service::ParseSmtpResponseForProviderId.call(
             mail_message: message,
             raw_response: response,
