@@ -18,8 +18,9 @@ module EmailEvents
           self.event_handler = event_handler
         end
 
-        def self.track_data(tracked_data_method)
+        def self.track_data(tracked_data_method, attrs = {})
           self.tracked_data_method = tracked_data_method
+          self.sent_email_data_class = attrs[:class] if attrs.has_key? :class
         end
 
         def __track_data_in_header

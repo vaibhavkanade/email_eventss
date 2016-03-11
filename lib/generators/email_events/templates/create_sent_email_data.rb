@@ -8,7 +8,6 @@ class CreateSentEmailData < ActiveRecord::Migration
       t.string :to, null: false
       t.text :data
       t.datetime :created_at
-      t.string :type
     end
   end
 end
