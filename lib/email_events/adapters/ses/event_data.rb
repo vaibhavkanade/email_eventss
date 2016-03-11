@@ -42,7 +42,7 @@ module EmailEvents::Adapters
         # only supported for bounce events
         return nil unless event_type == :bounce
 
-        @sendgrid_data['bounce']['bounceSubType']
+        @sns_data['bounce']['bounceSubType']
       end
 
       def smtp_message_id
@@ -51,7 +51,7 @@ module EmailEvents::Adapters
       end
 
       def provider_message_id
-        @ses_data['mail']['messageId']
+        @sns_data['mail']['messageId']
       end
 
       def raw_data

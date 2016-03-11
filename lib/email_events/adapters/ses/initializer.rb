@@ -3,7 +3,7 @@ module EmailEvents::Adapters
     class Initializer < Abstract::Initializer
       def self.load_adapter?
         smtp_settings = Rails.configuration.action_mailer.smtp_settings
-        smtp_settings.present? && smtp_settings[:address].include?('sendgrid.com')
+        smtp_settings.present? && smtp_settings[:address].include?('amazonaws.com')
       end
 
       def self.initialize
@@ -13,7 +13,7 @@ module EmailEvents::Adapters
         end
 
         Rails.application.routes.draw do
-          mount SnsEndpoint::Core => "/email_events/sendgrid"
+          mount SnsEndpoint::Core => "/email_events/ses"
         end
 
         # SNS doesn't provide us with the Message-ID, so we need to track SES's own
