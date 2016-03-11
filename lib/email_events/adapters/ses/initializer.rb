@@ -13,10 +13,6 @@ module EmailEvents::Adapters
           config.topics_list = ['email_events']
           config.message_proc = EmailEvents::Service::HandleEvent
         end
-
-        Rails.application.routes.draw do
-          mount SnsEndpoint::Core => "/email_events/ses"
-        end
       end
     end
   end

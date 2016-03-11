@@ -55,6 +55,16 @@ That's it!
 
 4. In the "Topic Details", click "Create Subscription".  Set the endpoint to https://<yourdomain>/email_events/ses
 
+5. Open up the AWS SES console.
+
+6. Under either "Domains" or "Email Addresses" (depending on whether you want event triggers for an entire domain or individual
+senders), click on a domain or email adress, then click "Details" and expand the "Notifications" tab.
+
+7. Click Edit Configuration and set the SNS Topic to "email_events" for Bounces, Complaints, and/or Deliveries.
+
+8. At the moment, you need to mount the sns_endpoint gem engine which email_events uses (yes, a nice-to-have would be for
+ email_events to just act as an engine itself).  Put `mount SnsEndpoint::Core => '/email_events/ses'` in your routes.rb.
+
 ## Usage
 
 ### Basic
