@@ -62,6 +62,13 @@ module EmailEvents
           # no provider id to parse if no adapter has been set
           return response if EmailEvents.adapter.nil?
 
+          # response won't be the smtp result unless the return_response setting is flagged on
+          # (but allow it for TestMailer in test environments)
+          unless (!Rails.configuration.action_mailer.smtp_settings.nil? && Rails.configuration.action_mailer.smtp_settings[:return_response]) ||
+                 Rails.env.test?
+            raise 'Email events are enabled for this mailer, but you haven\'t turned on return_response = true in your smtp settings'
+          end
+
           EmailEvents::Service::ParseSmtpResponseForProviderId.call(
             mail_message: message,
             raw_response: response,

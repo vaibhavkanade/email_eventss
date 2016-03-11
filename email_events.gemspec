@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["kent.mewhort@coupa.com"]
 
   spec.summary       = %q{Email event handling for delivery, bounces, drops, replies, etc.}
-  spec.description   = %q{Supports handling incoming events for SES or Sendgrid}
+  spec.description   = %q{Supports handling incoming events for SES/SNS or Sendgrid}
   spec.homepage      = "https://github.com/coupa/email_events"
   spec.license       = "MIT"
 
