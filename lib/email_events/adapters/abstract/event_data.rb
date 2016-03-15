@@ -9,15 +9,16 @@ module EmailEvents::Adapters
       def simplified_status
         # try to get a specific status based on the smtp status code; however, if the event doesn't have an smtp
         # status code (eg. bounce events always do, but drop events only do sometimes), supply a generic one
-        return "Unable to send email to the address provided" if smtp_status_code.blank?
+        return :unable_to_send_email_to_address_provided if smtp_status_code.blank?
 
-        if smtp_status_code >= 510 && smtp_status_code <= 512
+        case smtp_status_code
+        when 510, 511, 512
           :email_address_invalid
-        elsif smtp_status_code == 523
+        when 523
           :email_exceeds_recipients_size_limit
-        elsif smtp_status_code == 541
+        when 541
           :email_rejected_as_spam
-        elsif smtp_status_code == 552
+        when 552
           :recipients_inbox_is_full
         else
           :unknown
