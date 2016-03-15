@@ -1,8 +1,8 @@
 module EmailEvents::Adapters
   module Ses
     class EventData < Abstract::EventData
-      def initialize(sns_data)
-        @sns_data = sns_data
+      def initialize(raw_data)
+        @sns_data = raw_data['Message']
 
         raise "Unrecognized SES event type" if event_type.nil?
       end

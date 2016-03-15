@@ -46,7 +46,7 @@ class EmailEvents::Service::RetrieveDataFromHeader < EmailEvents::Service
       unless self.event_data.smtp_message_id.blank?
         matching_data = self.event_data.smtp_message_id.match(/([^\<]+)\@uuid/)
         matching_data.nil? ? nil : matching_data[1]
-      else
+      end
     end
   end
 end
