@@ -10,9 +10,8 @@ class EmailEvents::Service::RetrieveDataFromHeader < EmailEvents::Service
     # 2) the provider_message_id which Sendgrid or SES uses to track emails;
     # 3) recipient email addresses to which we recently sent out emails
 
-    uuid = uuid_from_smtp_message_id
-    unless uuid.blank?
-      sent_email = EmailEvents::SentEmailData.find_by_uuid!(uuid)
+    unless uuid_from_smtp_message_id.blank?
+      sent_email = EmailEvents::SentEmailData.find_by_uuid!(uuid_from_smtp_message_id)
 
       # if this event gives us our Message-ID and Sendgrid's sg_message_id, we take the opportunity to store
       # the latter, as other events (foremost, "open" events) don't necessarily provide us with the Message-ID again
@@ -43,11 +42,11 @@ class EmailEvents::Service::RetrieveDataFromHeader < EmailEvents::Service
 
   private
   def uuid_from_smtp_message_id
-    return nil if self.event_data.smtp_message_id.blank?
-
-    matching_data = self.event_data.smtp_message_id.match(/([^\<]+)\@uuid/)
-    return nil if matching_data.nil?
-
-    matching_data[1]
+    @uuid ||= begin
+      unless self.event_data.smtp_message_id.blank?
+        matching_data = self.event_data.smtp_message_id.match(/([^\<]+)\@uuid/)
+        matching_data.nil? ? nil : matching_data[1]
+      else
+    end
   end
 end
