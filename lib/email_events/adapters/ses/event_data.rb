@@ -2,7 +2,7 @@ module EmailEvents::Adapters
   module Ses
     class EventData < Abstract::EventData
       def initialize(raw_data)
-        @sns_data = raw_data['Message']
+        @sns_data = JSON.parse raw_data['Message']
 
         raise "Unrecognized SES event type" if event_type.nil?
       end
@@ -32,7 +32,7 @@ module EmailEvents::Adapters
         # only supported for bounce events
         return nil unless event_type == :bounce
 
-        status_code_str = @ses['bounce']['bounceRecipients'].last['status']
+        status_code_str = @sns_data['bounce']['bouncedRecipients'].last['status']
         return nil if status_code_str.nil?
 
         status_code_str.gsub(/\./,'').to_i
