@@ -1,0 +1,35 @@
+{
+  "delivered": {
+    "Type" : "Notification",
+    "MessageId" : "543bad23-8a25-5f79-9c8f-e241ff233ad4",
+    "TopicArn" : "arn:aws:sns:us-west-2:522466693830:email_events",
+    "Message" : "{\"notificationType\":\"Delivery\",\"mail\":{\"timestamp\":\"2016-03-15T20:38:28.870Z\",\"source\":\"support@ses.coupacontracts.com\",\"sourceArn\":\"arn:aws:ses:us-west-2:522466693830:identity/ses.coupacontracts.com\",\"sendingAccountId\":\"522466693830\",\"messageId\":\"010101537c005106-1bc745e2-93f8-41a4-9b00-fc7a328aa292-000000\",\"destination\":[\"kent.mewhort+sestest@coupa.com\"]},\"delivery\":{\"timestamp\":\"2016-03-15T20:38:30.066Z\",\"processingTimeMillis\":1196,\"recipients\":[\"kent.mewhort+sestest@coupa.com\"],\"smtpResponse\":\"250 2.0.0 OK 1458074310 ey9si1569698pab.123 - gsmtp\",\"reportingMTA\":\"a27-22.smtp-out.us-west-2.amazonses.com\"}}",
+    "Timestamp" : "2016-03-15T20:38:30.170Z",
+    "SignatureVersion" : "1",
+    "Signature" : "eX+NNn4nOTKBL4falnZrOXOOg7FEN8FcFfYsscu7G9ZqDXIS1PzM1kw2k/UHkc2IDhIBicriDn2keCLYITmhJwK1CZ412WjgStbLlnrWaAZ5YYFkpHfNhpJBgtGpt1b/1vVpLGTP3rtC8jSOqe6Sr+hsaO5JG/Kdxq/AOD9bf5MnALc2hTGuTwFQ9he6LGOowyV7tPRPlhJGjCh+GzMTbb58fPEt4AhXZ/1hHEq5qO1mlmcbwnEk9mF4arPU7mcEzEh0H3GxnHynpeasyKffTye6UCMuYPIAzIVxc5uk8RSb7V98C00EEXVNLgOVY8ventyVOh//M+Hu41XB7bffEA==",
+    "SigningCertURL" : "https://sns.us-west-2.amazonaws.com/SimpleNotificationService-bb750dd426d95ee9390147a5624348ee.pem",
+    "UnsubscribeURL" : "https://sns.us-west-2.amazonaws.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:us-west-2:522466693830:email_events:7389df31-85a1-4662-8e50-db1370044c5c"
+  },
+  "bounce": {
+    "Type" : "Notification",
+    "MessageId" : "db0ba1da-89cf-5012-afaa-eeb8fedf9647",
+    "TopicArn" : "arn:aws:sns:us-west-2:522466693830:email_events",
+    "Message" : "{\"notificationType\":\"Bounce\",\"bounce\":{\"bounceSubType\":\"General\",\"bounceType\":\"Permanent\",\"reportingMTA\":\"dsn; a27-52.smtp-out.us-west-2.amazonses.com\",\"bouncedRecipients\":[{\"action\":\"failed\",\"emailAddress\":\"bounce@simulator.amazonses.com\",\"status\":\"5.1.1\",\"diagnosticCode\":\"smtp; 550 5.1.1 user unknown\"}],\"timestamp\":\"2016-03-15T20:47:12.739Z\",\"feedbackId\":\"010101537c084ede-0c713362-bda4-4d1d-b572-e07a609271ad-000000\"},\"mail\":{\"timestamp\":\"2016-03-15T20:47:10.000Z\",\"source\":\"support@ses.coupacontracts.com\",\"sourceArn\":\"arn:aws:ses:us-west-2:522466693830:identity/ses.coupacontracts.com\",\"messageId\":\"010101537c084778-69135b0b-fbbd-4c0e-af90-55f1f94df381-000000\",\"destination\":[\"bounce@simulator.amazonses.com\"],\"sendingAccountId\":\"522466693830\"}}",
+    "Timestamp" : "2016-03-15T20:47:12.777Z",
+    "SignatureVersion" : "1",
+    "Signature" : "K7wZwAy42H2pDxLk5h8XjtynYxHlZuyqSIkjI4TqdTmmnj4MwiRGjiYwOJy9hwur4WOTmYW3dg1AwiIjSnOAgAfTcYgdlHci9sJ5+n9WaBIUL19rxgiqLD4SjPZ/uRM4maEofhUxBS5Exu3UwuFo9PDfyVCBx4bOQutDU9yLGbmiJ+EC9/90k+WxGw0+19V/kLSrbwj/kd9ia3lMT8w4qD7zb7oEw+dhVRVXBWEVB8yiq3ns4X+Cd9U1Mv+tc/Zb1JoJb9eBMb7A4yoSyKm/+xtq7iHVxu6er/zhcoujQ42f8fU6HlkSb1RlQtxRiPlhuHuPHyTApPDvMc+iB6jD+Q==",
+    "SigningCertURL" : "https://sns.us-west-2.amazonaws.com/SimpleNotificationService-bb750dd426d95ee9390147a5624348ee.pem",
+    "UnsubscribeURL" : "https://sns.us-west-2.amazonaws.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:us-west-2:522466693830:email_events:9f1eb32e-2d77-4783-9340-e122c3458cf9"
+  },
+  "spamreport": {
+    "Type" : "Notification",
+    "MessageId" : "e6a50e9a-7052-523a-acc4-41f80c686596",
+    "TopicArn" : "arn:aws:sns:us-west-2:522466693830:email_events",
+    "Message" : "{\"notificationType\":\"Complaint\",\"complaint\":{\"complainedRecipients\":[{\"emailAddress\":\"complaint@simulator.amazonses.com\"}],\"complaintFeedbackType\":\"abuse\",\"userAgent\":\"Amazon SES Mailbox Simulator\",\"timestamp\":\"2016-03-15T21:09:13.000Z\",\"feedbackId\":\"010101537c1c79ce-2bd73f6a-eaf2-11e5-81f5-77123f103c16-000000\"},\"mail\":{\"timestamp\":\"2016-03-15T21:09:11.000Z\",\"source\":\"support@ses.coupacontracts.com\",\"sourceArn\":\"arn:aws:ses:us-west-2:522466693830:identity/ses.coupacontracts.com\",\"messageId\":\"010101537c1c741b-d2f325b0-3348-4c04-b6d5-7aa4acb9f4c3-000000\",\"destination\":[\"complaint@simulator.amazonses.com\"],\"sendingAccountId\":\"522466693830\"}}",
+    "Timestamp" : "2016-03-15T21:09:14.495Z",
+    "SignatureVersion" : "1",
+    "Signature" : "gZW9lGZbvJ8PGaOF/MCLGqYnE9GGkL8gygbuo20JZGp/fPPV1aFg4XDRS71JwbC9cJLHOEbYqb9b+Sj5ZQQS5g53+1OkU/KE6He/J6K/yFQToSO2O9nPBSQh0gJVyvE/+JU4oUdSkPxeHa0nhwZOE5wvLBMnswDzldEkmjSny1kGImeNO/Iw16c0Vj3aLhRuQC/8ZGgc3Qu6jZ/QuDyR1TG36R5ApLVpt7sAJOhFzP0TArAvbmTOOqth9z5xjH0wgMu8lkO5/Rqppf/Ze3yWXq4srY6Z2UDadNsimovczQQ7JQX04TlSpOTpCtewkiNGCeb26e5jjlNvOj6Czg+L6w==",
+    "SigningCertURL" : "https://sns.us-west-2.amazonaws.com/SimpleNotificationService-bb750dd426d95ee9390147a5624348ee.pem",
+    "UnsubscribeURL" : "https://sns.us-west-2.amazonaws.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:us-west-2:522466693830:email_events:cd58f65a-9708-417a-b2f6-402e946932b9"
+  }
+}

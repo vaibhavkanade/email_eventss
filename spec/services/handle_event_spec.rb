@@ -1,55 +1,72 @@
 require 'spec_helper'
 
 describe EmailEvents::Service::HandleEvent do
-  context 'Sendgrid event' do
-    before do
-      # we won't get actual parsable SMTP responses from the TestMailer, so mock out the parse call
-      allow(EmailEvents::Service::ParseSmtpResponseForProviderId).to receive(:call)
-    end
+  SUPPORTED_EVENTS = {
+    sendgrid: [:delivered, :bounce, :dropped, :deferred, :processed, :click, :open, :spamreport, :group_unsubscribe, :group_resubscribe],
+    ses: [:delivered, :bounce, :spamreport]
+  }
 
-    [:delivered, :bounce, :dropped, :deferred, :processed, :click, :open, :spamreport,
-     :group_unsubscribe, :group_resubscribe].each do |event|
-      context "#{event} event" do
+  let(:provider_message_id) { 'test_message_id_123' }
 
-        def call(event_type)
-          # send the email (from the TestMailer)
-          email = TestMailer.hello.deliver_now
+  [:sendgrid, :ses].each do |provider|
+    context "#{provider} event" do
+      before do
+        EmailEvents.adapter = provider
+      end
 
-          # get the raw sendgrid data from the fixture and align the smtp message-id
-          fixture_file = File.join(File.dirname(__FILE__), "..", "fixtures", "sendgrid_events.json")
-          sendgrid_fixtures ||= JSON.parse(IO.read(fixture_file))
-          raw_event_data = sendgrid_fixtures[event_type.to_s].merge({
-            'smtp-id' => email.header['message-id'].to_s
-          }).with_indifferent_access
+      SUPPORTED_EVENTS[provider].each do |event|
+        context "#{event} event" do
+          def call(event_type, provider)
+            # send the email (from the TestMailer)
+            allow(EmailEvents::Service::ParseSmtpResponseForProviderId).to receive(:call)
+            email = TestMailer.hello.deliver_now
+            EmailEvents::SentEmailData.last.update_attribute(:provider_message_id, provider_message_id)
 
-          # call the service
-          EmailEvents::Service::HandleEvent.call(raw_event_data)
-        end
+            # get the raw provider data from the fixture
+            fixture_file = File.join(File.dirname(__FILE__), "..", "fixtures", "#{provider}_events.json")
+            fixtures = JSON.parse(IO.read(fixture_file))
+            raw_event_data = fixtures[event_type.to_s]
 
-        it "triggers the mailer's on_event handler" do
-          expect_any_instance_of(TestMailer).to receive(:handle_event)
-          call(event)
-        end
+            # align the ids
+            case provider
+            when :sendgrid
+              raw_event_data['smtp-id'] = nil
+              raw_event_data['sg_message_id'] = provider_message_id
+            when :ses
+              parsed_message_data = JSON.parse(raw_event_data['Message'])
+              parsed_message_data['mail']['messageId'] = provider_message_id
+              raw_event_data['Message'] = parsed_message_data.to_json
+            end
 
-        it "provides the callback with the event details" do
-          expect_any_instance_of(TestMailer).to receive(:handle_event) do |instance, event_data, email_data|
-            expect(event_data.event_type).to eq event
+            # call the service
+            EmailEvents::Service::HandleEvent.call(raw_event_data)
           end
-          call(event)
-        end
 
-        it "provides the callback with the original email details" do
-          expect_any_instance_of(TestMailer).to receive(:handle_event) do |instance, event_data, email_data|
-            expect(email_data.to).to eq 'joe@test.com'
+          it "triggers the mailer's on_event handler" do
+            expect_any_instance_of(TestMailer).to receive(:handle_event)
+            call(event, provider)
           end
-          call(event)
-        end
 
-        it "provides the callback with the custom tracked metadata" do
-          expect_any_instance_of(TestMailer).to receive(:handle_event) do |instance, event_data, email_data|
-            expect(email_data.data[:arbitrary_data]).to eq true
+          it "provides the callback with the event details" do
+            expect_any_instance_of(TestMailer).to receive(:handle_event) do |instance, event_data, email_data|
+              expect(event_data.event_type).to eq event
+            end
+            call(event, provider)
           end
-          call(event)
+
+          it "provides the callback with the original email details" do
+            expect_any_instance_of(TestMailer).to receive(:handle_event) do |instance, event_data, email_data|
+              expect(email_data.to).to eq 'joe@test.com'
+            end
+            call(event, provider)
+          end
+
+          it "provides the callback with the custom tracked metadata" do
+            expect_any_instance_of(TestMailer).to receive(:handle_event) do |instance, event_data, email_data|
+              expect(email_data.data[:arbitrary_data]).to eq true
+            end
+            call(event, provider)
+          end
         end
       end
     end
