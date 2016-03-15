@@ -22,4 +22,9 @@ Rails.configuration.action_mailer.smtp_settings = {
   password: "test123",
   return_response: true
 }
+RSpec.configure do |config|
+  config.before(:each) do
+    EmailEvents.adapter = :sendgrid
+  end
+end
 
