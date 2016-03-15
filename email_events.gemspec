@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "sns_endpoint"
   spec.add_dependency "uuidtools"
   spec.add_dependency "virtus"
-  spec.add_development_dependency "bundler", "~> 1.11"
+  spec.add_development_dependency "bundler"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "sqlite3", "~> 1.0"
