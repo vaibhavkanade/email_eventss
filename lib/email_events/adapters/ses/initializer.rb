@@ -1,4 +1,5 @@
 require 'sns_endpoint'
+require 'net/http'
 
 module EmailEvents::Adapters
   module Ses
@@ -10,9 +11,21 @@ module EmailEvents::Adapters
 
       def self.initialize
         SnsEndpoint.setup do |config|
-          config.topics_list = ['email_events']
+          config.topics_list = SnsEndpointTopicListMatcher.new ['email_events']
           config.message_proc = EmailEvents::Service::HandleEvent
+          config.subscribe_proc = Proc.new do |data|
+            # confirm the subscription
+            confirmation_endpoint = URI.parse(data['SubscribeURL'])
+            Net::HTTP.get confirmation_endpoint
+          end
         end
+      end
+    end
+
+    class SnsEndpointTopicListMatcher < Array
+      # match any topic ending in the topic name (as opposed to the long ARN topic ID)
+      def include?(arn)
+        self.any? {|topic| arn.end_with? topic}
       end
     end
   end
