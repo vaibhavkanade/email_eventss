@@ -23,8 +23,13 @@ module EmailEvents
           self.sent_email_data_class = attrs[:class] if attrs.has_key? :class
         end
 
+        def self.__track_data?
+          # track the sent email if there's either an event handler or a custom track data method
+          self.event_handler.present? || self.tracked_data_method.present?
+        end
+
         def __track_data_in_header
-          return if event_handler.nil? && tracked_data_method.nil?
+          return unless self.class.__track_data?
 
           EmailEvents::Service::TrackDataInHeader.call(
             mailer: self,
@@ -59,8 +64,8 @@ module EmailEvents
         def self.deliver_mail(message, &block)
           response = base_deliver_mail(message, &block)
 
-          # no provider id to parse if no adapter has been set
-          return response if EmailEvents.adapter.nil?
+          # no provider id to parse if no adapter has been set, or not tracking for this mailer
+          return response if EmailEvents.adapter.nil? || !self.__track_data?
 
           # response won't be the smtp result unless the return_response setting is flagged on
           # (but allow it for TestMailer in test environments)
