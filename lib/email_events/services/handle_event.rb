@@ -15,6 +15,9 @@ class EmailEvents::Service::HandleEvent < EmailEvents::Service
         mailer.send :__handle_event, event_data, email_data
       end
     end
+
+    # no data to output back to Rack
+    nil
   end
 
   private
