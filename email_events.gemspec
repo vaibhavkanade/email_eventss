@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q{Email event handling for delivery, bounces, drops, replies, etc.}
   spec.description   = %q{Supports handling incoming events for SES/SNS or Sendgrid}
-  spec.homepage      = "https://github.com/coupa/email_events"
+  spec.homepage      = "https://github.com/85x14/email_events"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
